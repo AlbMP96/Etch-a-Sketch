@@ -31,12 +31,16 @@ function colorGrid(color = 'blue') {
 
     let isClicked = false;
 
-    gridCont.addEventListener('mousedown', () => {
-        isClicked = true;
+    gridCont.addEventListener('mousedown', (e) => {
+        if (e.button === 0) {
+            isClicked = true;
+        }
     })
 
-    gridCont.addEventListener('mouseup', () => {
-        isClicked = false;
+    gridCont.addEventListener('mouseup', (e) => {
+        if (e.button === 0) {
+            isClicked = false;
+        }
     })
 
     gridCont.addEventListener('mouseleave', () => {
@@ -63,14 +67,13 @@ function getGridSize() {
 
     createGrid(slider.value);
 
-    slider.oninput = function() {
+    slider.oninput = function () {
         removeGrid();
         output.textContent = this.value;
         createGrid(slider.value);
-      }
+    }
 }
 
 function removeGrid() {
     document.querySelectorAll("#square").forEach((e) => e.parentNode.removeChild(e));;
 }
-
