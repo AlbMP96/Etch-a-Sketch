@@ -48,7 +48,7 @@ function colorGrid(color = 'black') {
     })
 
     for (let i = 0; i < squares.length; i++) {
-        squares[i].addEventListener('mousemove', () => {
+        squares[i].addEventListener('mouseover', () => {
             if (isClicked) {
                 squares[i].style.backgroundColor = color;
             }
