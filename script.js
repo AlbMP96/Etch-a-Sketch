@@ -1,7 +1,7 @@
 function createGrid(rowNum = 16) {
     const gridCont = document.querySelector(".grid-container");
     const gridSize = gridCont.offsetWidth;
-    const squareSize = (gridSize / rowNum) - 2;
+    const squareSize = (gridSize / rowNum) - 1;
 
     for (let i = 1; i <= (rowNum ** 2); i++) {
         let square = document.createElement("div");
@@ -17,9 +17,31 @@ function createGrid(rowNum = 16) {
         }
 
         gridCont.appendChild(square);
+        colorGrid(square);
     }
 
-    gridCont.setAttribute('style', `grid-template-columns: repeat(${rowNum}, ${rowNum}fr)`);
+    gridCont.setAttribute('style', `grid-template-columns: repeat(${rowNum}, 1fr)`);
+}
+
+function colorGrid(square) {
+
+    const gridCont = document.querySelector(".grid-container");
+
+    let isClicked = false;
+
+    gridCont.addEventListener('mousedown', () => {
+        isClicked = true;
+    })
+
+    gridCont.addEventListener('mouseup', () => {
+        isClicked = false;
+    })
+
+    square.addEventListener('mouseover', () => {
+        if (isClicked) {
+            square.style.backgroundColor = 'blue';
+        }
+    })
 }
 
 createGrid();
