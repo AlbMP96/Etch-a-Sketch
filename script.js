@@ -24,7 +24,7 @@ function createGrid(rowNum = 16) {
     gridCont.setAttribute('style', `grid-template-columns: repeat(${rowNum}, 1fr)`);
 }
 
-function colorGrid(color = 'blue') {
+function colorGrid(color = 'black') {
 
     const gridCont = document.querySelector(".grid-container");
     let squares = gridCont.childNodes;
@@ -47,7 +47,7 @@ function colorGrid(color = 'blue') {
         isClicked = false;
     })
 
-    for (let i = 1; i < squares.length; i++) {
+    for (let i = 0; i < squares.length; i++) {
         squares[i].addEventListener('mousemove', () => {
             if (isClicked) {
                 squares[i].style.backgroundColor = color;
@@ -61,8 +61,8 @@ function colorGrid(color = 'blue') {
 }
 
 function getGridSize() {
-    let slider = document.getElementById("row-range");
-    let output = document.getElementById("size");
+    const slider = document.getElementById("row-range");
+    const output = document.getElementById("size");
     output.textContent = slider.value;
 
     createGrid(slider.value);
@@ -74,6 +74,17 @@ function getGridSize() {
     }
 }
 
+function getColor() {
+    const colorSelector = document.querySelector('.color-selector');
+    let color = colorSelector.value;
+
+    return color;
+}
+
 function removeGrid() {
     document.querySelectorAll("#square").forEach((e) => e.parentNode.removeChild(e));;
 }
+
+document.querySelector(".grid-container").addEventListener('mouseover', () => {
+    colorGrid(getColor());
+})

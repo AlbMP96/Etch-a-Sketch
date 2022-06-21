@@ -25,3 +25,10 @@ body {
     top: 50%;
     padding-left: 15%;
 }
+
+.color {
+    margin: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
