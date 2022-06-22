@@ -50,3 +50,22 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+input[type=button] {
+    border: none;
+    text-decoration: none;
+    background-color: #265294;
+    color: white;
+    padding: 10px;
+    border-radius: 5%;
+    margin-bottom: 5px;
+    border: solid 2px wheat;
+}
+
+input[type=button]:hover {
+    opacity: 0.5;
+}
+
+.rainbow {
+    margin-left: 5px;
+}

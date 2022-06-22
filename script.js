@@ -1,30 +1,32 @@
-function createGrid(rowNum = 16) {
+//Create the grid-----------------------------------------------------------------------------------
+function createGrid(size = 16) {
     const gridCont = document.querySelector(".grid-container");
     const gridSize = gridCont.offsetWidth;
-    const squareSize = (gridSize / rowNum) - 1;
+    const squareSize = (gridSize / size) - 1;
 
-    for (let i = 1; i <= (rowNum ** 2); i++) {
+    for (let i = 1; i <= (size ** 2); i++) {
         let square = document.createElement("div");
         square.setAttribute('id', 'square');
         square.style.height = `${squareSize}px`;
         square.style.width = `${squareSize}px`;
 
-        if ((i % rowNum) == 0) {
+        if ((i % size) == 0) {
             square.style.borderRight = 'solid 1px black'
         }
 
-        if (i > ((rowNum ** 2) - rowNum)) {
+        if (i > ((size ** 2) - size)) {
             square.style.borderBottom = 'solid 1px black'
         }
 
         gridCont.appendChild(square);
-
     }
 
-    gridCont.setAttribute('style', `grid-template-columns: repeat(${rowNum}, 1fr)`);
+    gridCont.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    gridCont.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 }
 
-function colorGrid(color = 'black') {
+//Color the squares------------------------------------------------------------------------------------
+function colorGrid() {
 
     const gridCont = document.querySelector(".grid-container");
     let squares = gridCont.childNodes;
@@ -47,19 +49,34 @@ function colorGrid(color = 'black') {
         isClicked = false;
     })
 
-    for (let i = 0; i < squares.length; i++) {
-        squares[i].addEventListener('mouseover', () => {
-            if (isClicked) {
-                squares[i].style.backgroundColor = color;
-            }
-        })
+    if (rainbow) {
+        for (let i = 0; i < squares.length; i++) {
+            squares[i].addEventListener('mousemove', () => {
+                if (isClicked) {
+                    squares[i].style.backgroundColor = ConvertRGBtoHex(getRandomRGB(), getRandomRGB(), getRandomRGB());
+                }
+            })
 
-        squares[i].addEventListener('click', () => {
-            squares[i].style.backgroundColor = color;
-        })
+            squares[i].addEventListener('click', () => {
+                squares[i].style.backgroundColor = ConvertRGBtoHex(getRandomRGB(), getRandomRGB(), getRandomRGB());
+            })
+        }
+    } else {
+        for (let i = 0; i < squares.length; i++) {
+            squares[i].addEventListener('mousemove', () => {
+                if (isClicked) {
+                    squares[i].style.backgroundColor = getColor();
+                }
+            })
+
+            squares[i].addEventListener('click', () => {
+                squares[i].style.backgroundColor = getColor();
+            })
+        }
     }
 }
 
+//Get the row X columns from the slider---------------------------------------------------------------------
 function getGridSize() {
     const slider = document.getElementById("row-range");
     const output = document.getElementById("size");
@@ -74,6 +91,7 @@ function getGridSize() {
     }
 }
 
+//Get the color from the selector--------------------------------------------------------------------------
 function getColor() {
     const colorSelector = document.querySelector('.color-selector');
     let color = colorSelector.value;
@@ -81,10 +99,35 @@ function getColor() {
     return color;
 }
 
+//Clear the grid-------------------------------------------------------------------------------------------
 function removeGrid() {
     document.querySelectorAll("#square").forEach((e) => e.parentNode.removeChild(e));;
 }
 
+//Rainbow mode
+//Decimal to Hex------------------------------------------------------------------------------------------
+function ColorToHex(color) {
+    var hexadecimal = color.toString(16);
+    return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+}
+
+//Transform RGB code to Hex color-------------------------------------------------------------------------
+function ConvertRGBtoHex(red, green, blue) {
+    return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
+}
+
+//Create a rangom RGB code--------------------------------------------------------------------------------
+function getRandomRGB() {
+    return Math.floor(Math.random() * 255);
+}
+
+//Listeners to color the grid squares---------------------------------------------------------------------
+let rainbow = false;
+
+document.querySelector(".rainbow").addEventListener('click', (e) => {
+    rainbow ? (e.target.style.backgroundColor = '#265294', rainbow = false) : (e.target.style.backgroundColor = 'red', rainbow = true);
+})
+
 document.querySelector(".grid-container").addEventListener('mouseover', () => {
-    colorGrid(getColor());
+    colorGrid();
 })
